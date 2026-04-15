@@ -180,3 +180,26 @@ exports.updatePassword = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// @GET /api/users/stats — Admin & Manager only
+exports.getStats = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const activeUsers = await User.countDocuments({ status: 'active' });
+    const inactiveUsers = await User.countDocuments({ status: 'inactive' });
+    const adminCount = await User.countDocuments({ role: 'admin' });
+    const managerCount = await User.countDocuments({ role: 'manager' });
+    const userCount = await User.countDocuments({ role: 'user' });
+
+    res.json({
+      totalUsers,
+      activeUsers,
+      inactiveUsers,
+      adminCount,
+      managerCount,
+      userCount,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
