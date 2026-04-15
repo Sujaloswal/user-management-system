@@ -4,7 +4,40 @@ A professional full-stack user management system with role-based access control 
 
 ## 🚀 Quick Start
 
-See [QUICKSTART.md](QUICKSTART.md) for step-by-step setup instructions.
+### Prerequisites
+- Node.js (v14+)
+- MongoDB Atlas account
+- Git
+
+### Setup Steps
+
+1. **Clone Repository**
+```bash
+git clone <repository-url>
+cd user-management-system
+```
+
+2. **Backend Setup**
+```bash
+cd backend
+npm install
+npm run seed    # Create default users
+npm run dev     # Start backend on port 5000
+```
+
+3. **Frontend Setup**
+```bash
+cd frontend
+npm install
+npm run dev     # Start frontend on port 5173
+```
+
+4. **Access Application**
+- Open browser to `http://localhost:5173`
+- Login with demo credentials:
+  - **Admin**: admin@example.com / Admin@123
+  - **Manager**: manager@example.com / Manager@123
+  - **User**: user@example.com / User@123
 
 ---
 
@@ -178,8 +211,6 @@ Interactive script to create admin/manager accounts with:
 2. Browse Collections
 3. Select: `user-management-cluster` → `user-management` → `users`
 
-For detailed database guide, see [DATABASE_GUIDE.md](DATABASE_GUIDE.md)
-
 ---
 
 ## 📝 Project Structure
@@ -224,8 +255,6 @@ user-management-system/
 │   ├── .env
 │   ├── vite.config.js
 │   └── package.json
-├── DATABASE_GUIDE.md            # Database management guide
-├── QUICKSTART.md                # Quick setup guide
 └── README.md                    # This file
 ```
 
@@ -262,10 +291,8 @@ npm test    # Run test suite (if configured)
 
 ## 📚 Documentation
 
-- [QUICKSTART.md](QUICKSTART.md) - Step-by-step setup guide
-- [DATABASE_GUIDE.md](DATABASE_GUIDE.md) - Database management
-- [frontend/FEATURES.md](frontend/FEATURES.md) - Frontend features
-- [frontend/STRUCTURE.md](frontend/STRUCTURE.md) - Frontend structure
+- [frontend/FEATURES.md](frontend/FEATURES.md) - Frontend features list
+- [frontend/STRUCTURE.md](frontend/STRUCTURE.md) - Frontend structure details
 
 ---
 
