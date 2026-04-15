@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "User Management System Backend API",
   "main": "server.js",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",

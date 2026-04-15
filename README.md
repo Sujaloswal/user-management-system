@@ -276,16 +276,45 @@ npm test    # Run test suite (if configured)
 
 ## 🚀 Deployment
 
+### Environment Variables Required
+
+#### Backend Environment Variables
+```env
+PORT=5000
+MONGO_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_secure_jwt_secret_minimum_128_characters
+JWT_EXPIRE=15m
+JWT_REFRESH_SECRET=your_secure_refresh_secret_minimum_128_characters
+JWT_REFRESH_EXPIRE=7d
+NODE_ENV=production
+FRONTEND_URL=https://your-frontend-domain.com
+```
+
+#### Frontend Environment Variables
+```env
+VITE_API_URL=https://your-backend-domain.com/api
+```
+
 ### Backend Deployment (Railway/Render/Heroku)
-1. Set environment variables in platform
-2. Connect MongoDB Atlas
-3. Deploy from Git repository
+1. Create new project on hosting platform
+2. Connect your GitHub repository
+3. Set environment variables in platform dashboard
+4. Deploy from `a1` branch
+5. Run seed command if needed: `npm run seed`
 
 ### Frontend Deployment (Vercel/Netlify)
-1. Set `VITE_API_URL` to production backend URL
-2. Deploy from Git repository
-3. Configure build command: `npm run build`
+1. Create new project on hosting platform
+2. Connect your GitHub repository
+3. Set build command: `npm run build`
 4. Set publish directory: `dist`
+5. Set environment variable: `VITE_API_URL`
+6. Deploy from `a1` branch
+
+### Post-Deployment
+1. Test all API endpoints
+2. Verify CORS settings
+3. Test user authentication
+4. Create admin account using: `node config/add-admin.js`
 
 ---
 
