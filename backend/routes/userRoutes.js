@@ -7,10 +7,14 @@ const {
   updateUser,
   deleteUser,
   updatePassword,
+  getStats,
 } = require('../controllers/userController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 router.use(protect); // All user routes require login
+
+// Stats route must come BEFORE /:id route to avoid conflicts
+router.get('/stats', authorize('admin', 'manager'), getStats);
 
 router
   .route('/')

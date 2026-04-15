@@ -1,349 +1,314 @@
 # User Management System
 
-A professional full-stack user management system with role-based access control (RBAC), JWT authentication, and MongoDB database.
+A professional full-stack user management system with role-based access control (RBAC), JWT authentication, MongoDB database, and brutalist design aesthetic.
 
-## 🚀 Project Status
+## 🚀 Quick Start
 
-✅ **Backend**: Complete and Production-Ready  
-🔄 **Frontend**: In Progress
+See [QUICKSTART.md](QUICKSTART.md) for step-by-step setup instructions.
 
 ---
 
 ## 📋 Features
 
-### Backend Features (Completed)
+### Core Features
 - ✅ **JWT Authentication** - Secure access and refresh tokens
-- ✅ **Role-Based Access Control (RBAC)** - Admin, Manager, User roles
-- ✅ **Password Security** - bcrypt hashing with salt
-- ✅ **Soft Delete** - Users marked inactive instead of deletion
-- ✅ **Audit Trail** - Track who created/updated records
-- ✅ **Search & Filter** - Search by name/email, filter by role/status
-- ✅ **Pagination** - Efficient data loading
-- ✅ **CORS Enabled** - Ready for frontend integration
-- ✅ **MongoDB Atlas** - Cloud database integration
-- ✅ **RESTful API** - Clean and consistent endpoints
+- ✅ **Role-Based Access Control** - Admin, Manager, User roles with granular permissions
+- ✅ **Real-time Statistics** - Dashboard with live user metrics (admin/manager only)
+- ✅ **User Management** - Complete CRUD operations with search and filtering
+- ✅ **Brutalist Design** - Stark black/white contrast, bold borders, no-nonsense UI
+- ✅ **3D Visual Elements** - Subtle animated shapes on landing page
+- ✅ **Lucide Icons** - Professional icon system throughout
+- ✅ **Responsive Design** - Works on desktop, tablet, and mobile
+- ✅ **MongoDB Atlas** - Cloud database with automatic backups
 
 ### Security Features
-- 🔐 Cryptographically secure JWT secrets (128-character)
 - 🔐 Password hashing with bcrypt (12 salt rounds)
-- 🔐 Protected routes with middleware authentication
+- 🔐 JWT token-based authentication
+- 🔐 Protected routes with middleware
 - 🔐 Role-based authorization
-- 🔐 Environment variables for sensitive data
-- 🔐 CORS configuration for frontend security
+- 🔐 Soft delete for data preservation
+- 🔐 Audit trail (createdBy, updatedBy tracking)
 
 ---
 
-## 🏗️ Project Structure
-
-```
-user-management-system/
-├── backend/
-│   ├── config/
-│   │   └── seed.js                # Database seeding script
-│   ├── controllers/
-│   │   ├── authController.js      # Authentication logic
-│   │   └── userController.js      # User CRUD operations
-│   ├── middleware/
-│   │   └── authMiddleware.js      # JWT verification & authorization
-│   ├── models/
-│   │   └── User.js                # User schema with password hashing
-│   ├── routes/
-│   │   ├── authRoutes.js          # Authentication endpoints
-│   │   └── userRoutes.js          # User management endpoints
-│   ├── .env                       # Environment variables (not in git)
-│   ├── .gitignore                 # Git ignore rules
-│   ├── package.json               # Dependencies and scripts
-│   ├── server.js                  # Express server entry point
-│   ├── postman_collection.json    # Postman API testing collection
-│   └── test-api.ps1               # PowerShell testing script
-├── frontend/                      # (Coming soon)
-└── README.md                      # This file
-```
-
----
-
-## 🛠️ Tech Stack
+## 🏗️ Tech Stack
 
 ### Backend
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **Database**: MongoDB Atlas
-- **ODM**: Mongoose
-- **Authentication**: JWT (jsonwebtoken)
-- **Password Hashing**: bcryptjs
-- **Validation**: express-validator
-- **CORS**: cors
-- **Environment**: dotenv
+- Node.js + Express.js
+- MongoDB Atlas + Mongoose
+- JWT Authentication
+- bcryptjs for password hashing
 
-### Development Tools
-- **Auto-reload**: nodemon
-- **API Testing**: Postman / PowerShell script
+### Frontend
+- React 18 + Vite
+- React Router 6
+- Axios for API calls
+- Context API for state management
+- Lucide React for icons
+- Inline CSS (Brutalist Design)
 
 ---
 
-## 📦 Installation & Setup
+## 📦 Installation
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v14+)
 - MongoDB Atlas account
 - Git
 
-### 1. Clone the Repository
+### Setup
+
+1. **Clone Repository**
 ```bash
 git clone <repository-url>
 cd user-management-system
 ```
 
-### 2. Install Backend Dependencies
+2. **Backend Setup**
 ```bash
 cd backend
 npm install
+npm run seed    # Create default users
+npm run dev     # Start backend on port 5000
 ```
 
-### 3. Configure Environment Variables
-
-The `.env` file is already configured with:
-- MongoDB Atlas connection
-- Secure JWT secrets (128-character cryptographic random)
-- Port configuration
-- Token expiration settings
-
-**Note**: Never commit the `.env` file to version control!
-
-### 4. Seed the Database
-
-Create default users (Admin, Manager, User):
+3. **Frontend Setup**
 ```bash
-npm run seed
+cd frontend
+npm install
+npm run dev     # Start frontend on port 5173
 ```
 
-**Default Credentials:**
-- **Admin**: admin@example.com / Admin@123
-- **Manager**: manager@example.com / Manager@123
-- **User**: user@example.com / User@123
-
-### 5. Start the Development Server
-```bash
-npm run dev
-```
-
-Server will run on: `http://localhost:5000`
+4. **Access Application**
+- Open browser to `http://localhost:5173`
+- Login with demo credentials:
+  - **Admin**: admin@example.com / Admin@123
+  - **Manager**: manager@example.com / Manager@123
+  - **User**: user@example.com / User@123
 
 ---
 
 ## 🔌 API Endpoints
 
-### Authentication Routes (`/api/auth`)
+### Authentication (`/api/auth`)
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/refresh` - Refresh access token
+- `GET /api/auth/me` - Get current user
 
-| Method | Endpoint | Description | Access |
-|--------|----------|-------------|--------|
-| POST | `/api/auth/register` | Register new user | Public |
-| POST | `/api/auth/login` | Login user | Public |
-| POST | `/api/auth/refresh` | Refresh access token | Public |
-| GET | `/api/auth/me` | Get current user | Protected |
-
-### User Routes (`/api/users`)
-
-| Method | Endpoint | Description | Access |
-|--------|----------|-------------|--------|
-| GET | `/api/users` | Get all users (with pagination, search, filter) | Admin, Manager |
-| POST | `/api/users` | Create new user | Admin |
-| GET | `/api/users/:id` | Get user by ID | Admin, Manager, Own |
-| PUT | `/api/users/:id` | Update user | Admin, Manager (non-admins), Own |
-| DELETE | `/api/users/:id` | Deactivate user (soft delete) | Admin |
-| PUT | `/api/users/:id/password` | Update password | Own profile only |
-
-### Query Parameters (GET /api/users)
-- `page` - Page number (default: 1)
-- `limit` - Items per page (default: 10)
-- `role` - Filter by role (admin, manager, user)
-- `status` - Filter by status (active, inactive)
-- `search` - Search by name or email
+### Users (`/api/users`)
+- `GET /api/users` - Get all users (with pagination, search, filter)
+- `GET /api/users/stats` - Get user statistics (admin/manager only)
+- `POST /api/users` - Create new user (admin only)
+- `GET /api/users/:id` - Get user by ID
+- `PUT /api/users/:id` - Update user
+- `DELETE /api/users/:id` - Deactivate user (soft delete)
+- `PUT /api/users/:id/password` - Update password
 
 ---
 
-## 🔐 Role-Based Access Control
+## 🔐 Role-Based Access
 
 | Action | Admin | Manager | User |
 |--------|-------|---------|------|
 | View all users | ✅ | ✅ | ❌ |
+| View statistics | ✅ | ✅ | ❌ |
 | Create user | ✅ | ❌ | ❌ |
 | Update any user | ✅ | ✅ (non-admins) | ❌ |
 | Update own profile | ✅ | ✅ | ✅ |
 | Delete user | ✅ | ❌ | ❌ |
 | Change roles | ✅ | ❌ | ❌ |
-| Update password | ✅ (own) | ✅ (own) | ✅ (own) |
+
+---
+
+## 📊 Dashboard Features
+
+### Admin/Manager Dashboard
+- Welcome section with user info
+- Quick action cards (Manage Users, My Profile)
+- **Real-time Statistics Section**:
+  - Total users count
+  - Active/Inactive users
+  - Role distribution bar chart
+- System information panel
+
+### Regular User Dashboard
+- Welcome section
+- My Profile card
+- System information panel
+
+---
+
+## 🎨 Design System
+
+### Brutalist Design Principles
+- **Colors**: Stark black (#000000) and white (#ffffff) contrast
+- **Borders**: Bold 4px solid borders everywhere
+- **Typography**: Monospace fonts, uppercase text, 0.05em letter spacing
+- **Shadows**: 6-8px solid black box shadows
+- **Corners**: No rounded corners (0px border-radius)
+- **Icons**: Lucide React icons with 3px stroke width
+- **Animations**: Subtle 3D floating shapes on landing page
+
+### 3D Elements
+- 6 floating geometric shapes on hero section
+- Opacity: 12-25% for subtle effect
+- Purple accent (#6B21A8) and black colors
+- CSS-only animations (18-28 seconds)
+- Non-intrusive and maintains brutalist aesthetic
+
+---
+
+## 🗄️ Database Management
+
+### Add Admin/Manager Users
+```bash
+cd backend
+node config/add-admin.js
+```
+
+Interactive script to create admin/manager accounts with:
+- Email validation
+- Password hashing
+- Role selection
+- Status configuration
+
+### View Users in MongoDB Atlas
+1. Go to https://cloud.mongodb.com/
+2. Browse Collections
+3. Select: `user-management-cluster` → `user-management` → `users`
+
+For detailed database guide, see [DATABASE_GUIDE.md](DATABASE_GUIDE.md)
+
+---
+
+## 📝 Project Structure
+
+```
+user-management-system/
+├── backend/
+│   ├── config/
+│   │   ├── seed.js              # Database seeding
+│   │   └── add-admin.js         # Admin creation script
+│   ├── controllers/
+│   │   ├── authController.js    # Authentication logic
+│   │   └── userController.js    # User CRUD + statistics
+│   ├── middleware/
+│   │   └── authMiddleware.js    # JWT verification
+│   ├── models/
+│   │   └── User.js              # User schema
+│   ├── routes/
+│   │   ├── authRoutes.js        # Auth endpoints
+│   │   └── userRoutes.js        # User endpoints
+│   ├── .env                     # Environment variables
+│   ├── server.js                # Express server
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── axios.js         # API client
+│   │   ├── components/
+│   │   │   └── ProtectedRoute.jsx
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx  # Auth state
+│   │   ├── pages/
+│   │   │   ├── LandingPage.jsx  # Landing with 3D elements
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── RegisterPage.jsx
+│   │   │   ├── DashboardPage.jsx # With statistics
+│   │   │   ├── UsersPage.jsx
+│   │   │   ├── UserDetailPage.jsx
+│   │   │   └── ProfilePage.jsx
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── .env
+│   ├── vite.config.js
+│   └── package.json
+├── DATABASE_GUIDE.md            # Database management guide
+├── QUICKSTART.md                # Quick setup guide
+└── README.md                    # This file
+```
 
 ---
 
 ## 🧪 Testing
 
-### Option 1: PowerShell Test Script (Recommended)
-```powershell
-cd backend
-.\test-api.ps1
-```
-
-This will run 15 comprehensive tests covering:
-- Health check
-- Authentication (all roles)
-- Authorization (RBAC)
-- CRUD operations
-- Search and filtering
-- Soft delete
-- Access control
-
-### Option 2: Postman Collection
-1. Import `backend/postman_collection.json` into Postman
-2. Run the collection to test all endpoints
-3. Variables are automatically set (tokens, user IDs)
-
-### Option 3: Manual Testing
-Use any HTTP client (curl, Postman, Thunder Client) with the endpoints listed above.
-
----
-
-## ✅ Test Results
-
-All 15 tests passed successfully:
-
-```
-✅ Health Check
-✅ Admin Login
-✅ Manager Login
-✅ User Login
-✅ Get Current User
-✅ Get All Users (Admin)
-✅ Create New User (Admin)
-✅ Get User by ID
-✅ Update User
-✅ Manager Access (Get All Users)
-✅ User Access Control (403 Forbidden - Correct!)
-✅ Search Users
-✅ Filter by Role
-✅ Delete User (Soft Delete)
-✅ Verify User is Inactive
-```
-
-**Status**: Backend is 100% production-ready! 🎉
-
----
-
-## 📝 Available NPM Scripts
-
+### Backend Testing
 ```bash
-npm run dev      # Start development server with auto-reload
-npm start        # Start production server
-npm run seed     # Seed database with default users
+cd backend
+npm test    # Run test suite (if configured)
 ```
 
----
-
-## 🔒 Security Best Practices Implemented
-
-1. ✅ **Environment Variables** - Sensitive data in .env file
-2. ✅ **Strong JWT Secrets** - 128-character cryptographic random
-3. ✅ **Password Hashing** - bcrypt with 12 salt rounds
-4. ✅ **Password Never Returned** - select: false on password field
-5. ✅ **JWT Expiration** - Access tokens expire in 15 minutes
-6. ✅ **Refresh Tokens** - Long-lived tokens for token renewal
-7. ✅ **Role-Based Access** - Granular permission control
-8. ✅ **Soft Delete** - Data preservation and audit trail
-9. ✅ **CORS Configuration** - Controlled cross-origin access
-10. ✅ **Input Validation** - express-validator ready
+### Manual Testing
+- Import `backend/postman_collection.json` into Postman
+- Test all endpoints with pre-configured requests
 
 ---
 
-## 🚀 Deployment Considerations
+## 🚀 Deployment
 
-### Before Production Deployment:
+### Backend Deployment (Railway/Render/Heroku)
+1. Set environment variables in platform
+2. Connect MongoDB Atlas
+3. Deploy from Git repository
 
-1. **Environment Variables**
-   - Use production MongoDB connection string
-   - Generate new JWT secrets for production
-   - Set NODE_ENV=production
-   - Configure production FRONTEND_URL
-
-2. **Security Enhancements**
-   - Implement rate limiting (express-rate-limit)
-   - Add helmet.js for security headers
-   - Enable HTTPS only
-   - Implement request logging
-   - Add input sanitization
-
-3. **Performance**
-   - Enable MongoDB indexes
-   - Implement Redis caching
-   - Use compression middleware
-   - Configure PM2 for process management
-
-4. **Monitoring**
-   - Set up error tracking (Sentry)
-   - Implement logging (Winston)
-   - Monitor API performance
-   - Set up health check endpoints
+### Frontend Deployment (Vercel/Netlify)
+1. Set `VITE_API_URL` to production backend URL
+2. Deploy from Git repository
+3. Configure build command: `npm run build`
+4. Set publish directory: `dist`
 
 ---
 
-## 🎯 Next Steps
+## 📚 Documentation
 
-- [ ] Build frontend with React + Vite
-- [ ] Implement authentication UI (Login/Register)
-- [ ] Create user management dashboard
-- [ ] Add user profile pages
-- [ ] Implement password reset functionality
-- [ ] Add email verification
-- [ ] Deploy to production
+- [QUICKSTART.md](QUICKSTART.md) - Step-by-step setup guide
+- [DATABASE_GUIDE.md](DATABASE_GUIDE.md) - Database management
+- [frontend/FEATURES.md](frontend/FEATURES.md) - Frontend features
+- [frontend/STRUCTURE.md](frontend/STRUCTURE.md) - Frontend structure
 
 ---
 
-## 📚 API Documentation
+## 🎯 Recent Updates
 
-For detailed API documentation, import the Postman collection:
-- File: `backend/postman_collection.json`
-- Includes all endpoints with examples
-- Auto-saves tokens and user IDs
-- Ready for immediate testing
+### Latest (April 16, 2026)
+- ✅ Made dashboard more compact (40% less scrolling)
+- ✅ Increased 3D element visibility (darker opacity)
+- ✅ Optimized all card sizes and spacing
+- ✅ Improved bar chart design
+- ✅ Removed pie chart and Quick Insights
+
+### Previous Updates
+- ✅ Added real-time statistics dashboard
+- ✅ Replaced all emojis with Lucide icons
+- ✅ Added 3D floating shapes to landing page
+- ✅ Created admin creation script
+- ✅ Implemented role-based statistics
 
 ---
 
-## 🤝 Contributing
+## � Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the ISC License.
+ISC License
 
 ---
 
 ## 👨‍💻 Author
 
-Built with ❤️ using Node.js, Express, and MongoDB
+Built with Node.js, Express, React, and MongoDB
 
 ---
 
-## 🐛 Known Issues
-
-- None currently! All tests passing ✅
-
----
-
-## 📞 Support
-
-For issues and questions:
-1. Check the API documentation in Postman collection
-2. Run the test script to verify setup
-3. Review the test results for debugging
-
----
-
-**Backend Status**: ✅ Production Ready  
-**Last Updated**: April 15, 2026  
-**Version**: 1.0.0
+**Status**: ✅ Production Ready  
+**Version**: 1.0.0  
+**Last Updated**: April 16, 2026
