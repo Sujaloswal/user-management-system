@@ -159,10 +159,15 @@ const UsersPage = () => {
                       <button onClick={() => navigate(`/users/${u._id}`)} style={styles.viewBtn}>VIEW</button>
                       {(user?.role === 'admin' || user?.role === 'manager') && u._id !== user._id && (
                         <>
-                          {u.status === 'active' ? (
-                            <button onClick={() => handleDeactivate(u._id)} style={styles.deleteBtn}>DEACTIVATE</button>
-                          ) : (
-                            <button onClick={() => handleActivate(u._id)} style={styles.activateBtn}>ACTIVATE</button>
+                          {/* Managers cannot modify admin users */}
+                          {user?.role === 'manager' && u.role === 'admin' ? null : (
+                            <>
+                              {u.status === 'active' ? (
+                                <button onClick={() => handleDeactivate(u._id)} style={styles.deleteBtn}>DEACTIVATE</button>
+                              ) : (
+                                <button onClick={() => handleActivate(u._id)} style={styles.activateBtn}>ACTIVATE</button>
+                              )}
+                            </>
                           )}
                         </>
                       )}
