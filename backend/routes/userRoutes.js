@@ -6,6 +6,7 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  activateUser,
   updatePassword,
   getStats,
 } = require('../controllers/userController');
@@ -25,8 +26,9 @@ router
   .route('/:id')
   .get(getUserById)
   .put(updateUser)
-  .delete(authorize('admin'), deleteUser);
+  .delete(authorize('admin', 'manager'), deleteUser);
 
+router.put('/:id/activate', authorize('admin', 'manager'), activateUser);
 router.put('/:id/password', updatePassword);
 
 module.exports = router;
