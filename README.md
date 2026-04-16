@@ -48,6 +48,7 @@ npm run dev     # Start frontend on port 5173
 - ✅ **Role-Based Access Control** - Admin, Manager, User roles with granular permissions
 - ✅ **Real-time Statistics** - Dashboard with live user metrics (admin/manager only)
 - ✅ **User Management** - Complete CRUD operations with search and filtering
+- ✅ **User Activation/Deactivation** - Admin and Manager can activate/deactivate users
 - ✅ **Brutalist Design** - Stark black/white contrast, bold borders, no-nonsense UI
 - ✅ **3D Visual Elements** - Subtle animated shapes on landing page
 - ✅ **Lucide Icons** - Professional icon system throughout
@@ -135,7 +136,8 @@ npm run dev     # Start frontend on port 5173
 - `POST /api/users` - Create new user (admin only)
 - `GET /api/users/:id` - Get user by ID
 - `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Deactivate user (soft delete)
+- `DELETE /api/users/:id` - Deactivate user (soft delete, admin/manager)
+- `PUT /api/users/:id/activate` - Activate user (admin/manager)
 - `PUT /api/users/:id/password` - Update password
 
 ---
@@ -149,7 +151,8 @@ npm run dev     # Start frontend on port 5173
 | Create user | ✅ | ❌ | ❌ |
 | Update any user | ✅ | ✅ (non-admins) | ❌ |
 | Update own profile | ✅ | ✅ | ✅ |
-| Delete user | ✅ | ❌ | ❌ |
+| Deactivate user | ✅ | ✅ (non-admins) | ❌ |
+| Activate user | ✅ | ✅ (non-admins) | ❌ |
 | Change roles | ✅ | ❌ | ❌ |
 
 ---
@@ -276,45 +279,29 @@ npm test    # Run test suite (if configured)
 
 ## 🚀 Deployment
 
-### Environment Variables Required
+### Live Application
+- **Frontend**: https://user-management-system-nine-roan.vercel.app
+- **Backend API**: https://user-management-system-kkgq.onrender.com/api
 
-#### Backend Environment Variables
-```env
-PORT=5000
-MONGO_URI=your_mongodb_atlas_connection_string
-JWT_SECRET=your_secure_jwt_secret_minimum_128_characters
-JWT_EXPIRE=15m
-JWT_REFRESH_SECRET=your_secure_refresh_secret_minimum_128_characters
-JWT_REFRESH_EXPIRE=7d
-NODE_ENV=production
-FRONTEND_URL=https://your-frontend-domain.com
-```
+### Backend Deployment (Render)
+1. Set environment variables in Render dashboard:
+   - `MONGO_URI` - Your MongoDB Atlas connection string
+   - `JWT_SECRET` - Your JWT secret key
+   - `JWT_REFRESH_SECRET` - Your refresh token secret
+   - `FRONTEND_URL` - https://user-management-system-nine-roan.vercel.app
+   - `NODE_ENV` - production
+2. Deploy from Git repository
+3. Backend will be available at: https://user-management-system-kkgq.onrender.com
 
-#### Frontend Environment Variables
-```env
-VITE_API_URL=https://your-backend-domain.com/api
-```
+### Frontend Deployment (Vercel)
+1. Set environment variable in Vercel dashboard:
+   - `VITE_API_URL` - https://user-management-system-kkgq.onrender.com/api
+2. Deploy from Git repository
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Frontend will be available at: https://user-management-system-nine-roan.vercel.app
 
-### Backend Deployment (Railway/Render/Heroku)
-1. Create new project on hosting platform
-2. Connect your GitHub repository
-3. Set environment variables in platform dashboard
-4. Deploy from `a1` branch
-5. Run seed command if needed: `npm run seed`
-
-### Frontend Deployment (Vercel/Netlify)
-1. Create new project on hosting platform
-2. Connect your GitHub repository
-3. Set build command: `npm run build`
-4. Set publish directory: `dist`
-5. Set environment variable: `VITE_API_URL`
-6. Deploy from `a1` branch
-
-### Post-Deployment
-1. Test all API endpoints
-2. Verify CORS settings
-3. Test user authentication
-4. Create admin account using: `node config/add-admin.js`
+**Note**: Render free tier may have cold starts (first request takes 30-60 seconds after inactivity)
 
 ---
 
@@ -328,6 +315,12 @@ VITE_API_URL=https://your-backend-domain.com/api
 ## 🎯 Recent Updates
 
 ### Latest (April 16, 2026)
+- ✅ **Added User Activation/Deactivation Feature**
+  - Admin and Manager can now deactivate active users
+  - Admin and Manager can reactivate inactive users
+  - Managers cannot modify admin accounts (security restriction)
+  - Status-based buttons (red DEACTIVATE for active, green ACTIVATE for inactive)
+  - Confirmation dialogs for both actions
 - ✅ Made dashboard more compact (40% less scrolling)
 - ✅ Increased 3D element visibility (darker opacity)
 - ✅ Optimized all card sizes and spacing
@@ -366,5 +359,5 @@ Built with Node.js, Express, React, and MongoDB
 ---
 
 **Status**: ✅ Production Ready  
-**Version**: 1.0.0  
+**Version**: 1.0.1  
 **Last Updated**: April 16, 2026

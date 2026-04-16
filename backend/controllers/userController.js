@@ -131,7 +131,7 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-// @DELETE /api/users/:id — Admin only (soft delete by setting inactive)
+// @DELETE /api/users/:id — Admin & Manager (soft delete by setting inactive)
 exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -140,9 +140,14 @@ exports.deleteUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Prevent admin from deleting themselves
+    // Prevent user from deactivating themselves
     if (req.user._id.toString() === req.params.id) {
-      return res.status(400).json({ message: 'You cannot delete your own account' });
+      return res.status(400).json({ message: 'You cannot deactivate your own account' });
+    }
+
+    // Managers cannot deactivate admins
+    if (req.user.role === 'manager' && user.role === 'admin') {
+      return res.status(403).json({ message: 'Managers cannot deactivate admin users' });
     }
 
     await User.findByIdAndUpdate(req.params.id, {
@@ -151,6 +156,35 @@ exports.deleteUser = async (req, res) => {
     });
 
     res.json({ message: 'User deactivated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @PUT /api/users/:id/activate — Admin & Manager (reactivate user)
+exports.activateUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Managers cannot activate admins
+    if (req.user.role === 'manager' && user.role === 'admin') {
+      return res.status(403).json({ message: 'Managers cannot activate admin users' });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: 'active',
+        updatedBy: req.user._id,
+      },
+      { new: true }
+    ).populate('createdBy', 'name email').populate('updatedBy', 'name email');
+
+    res.json({ message: 'User activated successfully', user: updatedUser });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

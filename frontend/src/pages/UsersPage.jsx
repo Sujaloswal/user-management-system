@@ -46,9 +46,21 @@ const UsersPage = () => {
     if (!window.confirm('DEACTIVATE THIS USER?')) return;
     try {
       await API.delete(`/users/${id}`);
+      alert('User deactivated successfully!');
       fetchUsers();
     } catch (err) {
-      alert(err.response?.data?.message || 'ERROR');
+      alert(err.response?.data?.message || 'ERROR DEACTIVATING USER');
+    }
+  };
+
+  const handleActivate = async (id) => {
+    if (!window.confirm('ACTIVATE THIS USER?')) return;
+    try {
+      await API.put(`/users/${id}/activate`);
+      alert('User activated successfully!');
+      fetchUsers();
+    } catch (err) {
+      alert(err.response?.data?.message || 'ERROR ACTIVATING USER');
     }
   };
 
@@ -147,8 +159,19 @@ const UsersPage = () => {
                     <td>{new Date(u.createdAt).toLocaleDateString()}</td>
                     <td>
                       <button onClick={() => navigate(`/users/${u._id}`)} style={styles.viewBtn}>VIEW</button>
-                      {user?.role === 'admin' && u._id !== user._id && (
-                        <button onClick={() => handleDeactivate(u._id)} style={styles.deleteBtn}>DEACTIVATE</button>
+                      {(user?.role === 'admin' || user?.role === 'manager') && u._id !== user?._id && (
+                        <>
+                          {/* Show activate/deactivate buttons unless manager trying to modify admin */}
+                          {!(user?.role === 'manager' && u.role === 'admin') && (
+                            <>
+                              {u.status === 'active' ? (
+                                <button onClick={() => handleDeactivate(u._id)} style={styles.deleteBtn}>DEACTIVATE</button>
+                              ) : (
+                                <button onClick={() => handleActivate(u._id)} style={styles.activateBtn}>ACTIVATE</button>
+                              )}
+                            </>
+                          )}
+                        </>
                       )}
                     </td>
                   </tr>
@@ -258,6 +281,7 @@ const styles = {
   roleBadge: { padding: '0.25rem 0.75rem', color: '#ffffff', fontSize: '0.75rem', fontWeight: 'bold', letterSpacing: '0.05em', display: 'inline-block', border: '2px solid #000000' },
   viewBtn: { marginRight: '0.5rem', padding: '0.4rem 0.75rem', background: '#1d4ed8', color: '#ffffff', border: '2px solid #000000', fontWeight: 'bold', fontSize: '0.75rem', letterSpacing: '0.05em' },
   deleteBtn: { padding: '0.4rem 0.75rem', background: '#ff0000', color: '#ffffff', border: '2px solid #000000', fontWeight: 'bold', fontSize: '0.75rem', letterSpacing: '0.05em' },
+  activateBtn: { padding: '0.4rem 0.75rem', background: '#16a34a', color: '#ffffff', border: '2px solid #000000', fontWeight: 'bold', fontSize: '0.75rem', letterSpacing: '0.05em' },
   pagination: { display: 'flex', justifyContent: 'center', gap: '2rem', alignItems: 'center' },
   pageBtn: { padding: '0.75rem 1.5rem', background: '#000000', color: '#ffffff', border: '3px solid #000000', fontWeight: 'bold', letterSpacing: '0.05em', boxShadow: '4px 4px 0 #000000' },
   pageInfo: { fontWeight: 'bold', fontSize: '1.1rem', letterSpacing: '0.05em' },
