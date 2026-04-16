@@ -46,9 +46,10 @@ const UsersPage = () => {
     if (!window.confirm('DEACTIVATE THIS USER?')) return;
     try {
       await API.delete(`/users/${id}`);
+      alert('User deactivated successfully!');
       fetchUsers();
     } catch (err) {
-      alert(err.response?.data?.message || 'ERROR');
+      alert(err.response?.data?.message || 'ERROR DEACTIVATING USER');
     }
   };
 
@@ -56,9 +57,10 @@ const UsersPage = () => {
     if (!window.confirm('ACTIVATE THIS USER?')) return;
     try {
       await API.put(`/users/${id}/activate`);
+      alert('User activated successfully!');
       fetchUsers();
     } catch (err) {
-      alert(err.response?.data?.message || 'ERROR');
+      alert(err.response?.data?.message || 'ERROR ACTIVATING USER');
     }
   };
 
