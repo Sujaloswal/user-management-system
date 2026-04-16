@@ -48,6 +48,7 @@ npm run dev     # Start frontend on port 5173
 - ✅ **Role-Based Access Control** - Admin, Manager, User roles with granular permissions
 - ✅ **Real-time Statistics** - Dashboard with live user metrics (admin/manager only)
 - ✅ **User Management** - Complete CRUD operations with search and filtering
+- ✅ **User Activation/Deactivation** - Admin and Manager can activate/deactivate users
 - ✅ **Brutalist Design** - Stark black/white contrast, bold borders, no-nonsense UI
 - ✅ **3D Visual Elements** - Subtle animated shapes on landing page
 - ✅ **Lucide Icons** - Professional icon system throughout
@@ -135,7 +136,8 @@ npm run dev     # Start frontend on port 5173
 - `POST /api/users` - Create new user (admin only)
 - `GET /api/users/:id` - Get user by ID
 - `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Deactivate user (soft delete)
+- `DELETE /api/users/:id` - Deactivate user (soft delete, admin/manager)
+- `PUT /api/users/:id/activate` - Activate user (admin/manager)
 - `PUT /api/users/:id/password` - Update password
 
 ---
@@ -149,7 +151,8 @@ npm run dev     # Start frontend on port 5173
 | Create user | ✅ | ❌ | ❌ |
 | Update any user | ✅ | ✅ (non-admins) | ❌ |
 | Update own profile | ✅ | ✅ | ✅ |
-| Delete user | ✅ | ❌ | ❌ |
+| Deactivate user | ✅ | ✅ (non-admins) | ❌ |
+| Activate user | ✅ | ✅ (non-admins) | ❌ |
 | Change roles | ✅ | ❌ | ❌ |
 
 ---
@@ -299,6 +302,12 @@ npm test    # Run test suite (if configured)
 ## 🎯 Recent Updates
 
 ### Latest (April 16, 2026)
+- ✅ **Added User Activation/Deactivation Feature**
+  - Admin and Manager can now deactivate active users
+  - Admin and Manager can reactivate inactive users
+  - Managers cannot modify admin accounts (security restriction)
+  - Status-based buttons (red DEACTIVATE for active, green ACTIVATE for inactive)
+  - Confirmation dialogs for both actions
 - ✅ Made dashboard more compact (40% less scrolling)
 - ✅ Increased 3D element visibility (darker opacity)
 - ✅ Optimized all card sizes and spacing
