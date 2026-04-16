@@ -346,5 +346,5 @@ Built with Node.js, Express, React, and MongoDB
 ---
 
 **Status**: ✅ Production Ready  
-**Version**: 1.0.0  
+**Version**: 1.0.1  
 **Last Updated**: April 16, 2026
