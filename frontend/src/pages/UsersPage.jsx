@@ -159,10 +159,10 @@ const UsersPage = () => {
                     <td>{new Date(u.createdAt).toLocaleDateString()}</td>
                     <td>
                       <button onClick={() => navigate(`/users/${u._id}`)} style={styles.viewBtn}>VIEW</button>
-                      {(user?.role === 'admin' || user?.role === 'manager') && u._id !== user._id && (
+                      {(user?.role === 'admin' || user?.role === 'manager') && u._id !== user?._id && (
                         <>
-                          {/* Managers cannot modify admin users */}
-                          {user?.role === 'manager' && u.role === 'admin' ? null : (
+                          {/* Show activate/deactivate buttons unless manager trying to modify admin */}
+                          {!(user?.role === 'manager' && u.role === 'admin') && (
                             <>
                               {u.status === 'active' ? (
                                 <button onClick={() => handleDeactivate(u._id)} style={styles.deleteBtn}>DEACTIVATE</button>

@@ -279,16 +279,29 @@ npm test    # Run test suite (if configured)
 
 ## 🚀 Deployment
 
-### Backend Deployment (Railway/Render/Heroku)
-1. Set environment variables in platform
-2. Connect MongoDB Atlas
-3. Deploy from Git repository
+### Live Application
+- **Frontend**: https://user-management-system-nine-roan.vercel.app
+- **Backend API**: https://user-management-system-kkgq.onrender.com/api
 
-### Frontend Deployment (Vercel/Netlify)
-1. Set `VITE_API_URL` to production backend URL
+### Backend Deployment (Render)
+1. Set environment variables in Render dashboard:
+   - `MONGO_URI` - Your MongoDB Atlas connection string
+   - `JWT_SECRET` - Your JWT secret key
+   - `JWT_REFRESH_SECRET` - Your refresh token secret
+   - `FRONTEND_URL` - https://user-management-system-nine-roan.vercel.app
+   - `NODE_ENV` - production
 2. Deploy from Git repository
-3. Configure build command: `npm run build`
-4. Set publish directory: `dist`
+3. Backend will be available at: https://user-management-system-kkgq.onrender.com
+
+### Frontend Deployment (Vercel)
+1. Set environment variable in Vercel dashboard:
+   - `VITE_API_URL` - https://user-management-system-kkgq.onrender.com/api
+2. Deploy from Git repository
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Frontend will be available at: https://user-management-system-nine-roan.vercel.app
+
+**Note**: Render free tier may have cold starts (first request takes 30-60 seconds after inactivity)
 
 ---
 
